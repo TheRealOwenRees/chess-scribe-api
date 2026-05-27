@@ -17,9 +17,13 @@
 
 (package
  (name chess-scribe-api)
- (synopsis "A short synopsis")
- (description "A longer description")
- (depends ocaml)
+ (synopsis "API for chess-scribe.org")
+ (description
+  "The backend that powers chess-scribe.org. Convert chess PGN files into PDFs.")
+ (depends
+  ocaml
+  (dream
+   (>= "1.0.0~alpha8")))
  (tags
   ("chess" "pgn" "pdf")))
 

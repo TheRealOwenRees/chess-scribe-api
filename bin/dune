@@ -1,4 +1,4 @@
 (executable
  (public_name chess-scribe-api)
  (name main)
- (libraries chess_scribe_api))
+ (libraries chess_scribe_api dream))
