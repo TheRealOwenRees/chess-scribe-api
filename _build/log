@@ -1,0 +1,6 @@
+# dune init project chess-scribe-api --kind=exec
+# OCAMLPARAM: unset
+# Shared cache: enabled-except-user-rules
+# Shared cache location: /home/owen/.cache/dune/db
+# Workspace root: /home/owen/Desktop/chess-scribe-api
+# Auto-detected concurrency: 4
