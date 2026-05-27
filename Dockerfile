@@ -26,5 +26,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # Copy the compiled native OCaml binary from Stage 1
 COPY --from=builder /app/_build/default/bin/main.exe ./server
 
+# Copy the static assets folder
+COPY ./static ./static
+
 EXPOSE 8080
 CMD ["./server"]

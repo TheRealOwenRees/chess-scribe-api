@@ -1,0 +1,108 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Chess PDF API",
+    "description": "Chess PDF API",
+    "version": "0.0.1"
+  },
+  "paths": {
+    "/api/v1/health": {
+      "get": {
+        "summary": "Health Check",
+        "description": "Health check",
+        "responses": {
+          "200": {
+            "$ref": "#/paths/~1api~1v1~1pdf/post/responses/200"
+          },
+          "500": {
+            "$ref": "#/paths/~1api~1v1~1pdf/post/responses/500"
+          }
+        }
+      }
+    },
+    "/api/v1/pdf": {
+      "post": {
+        "summary": "Create PDF",
+        "description": "Create PDF",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["texString"],
+                "properties": {
+                  "texString": {
+                    "type": "string",
+                    "example": "\n\\documentclass{article}\\usepackage{xskak}\\usepackage{multicol}\\usepackage[a4paper]{geometry}\\usepackage{parskip}\\geometry{left=1.25cm,right=1.25cm,top=1.5cm,bottom=1.5cm,columnsep=1.2cm}\\setlength{\\parindent}{0pt}\\title{Alejandro Fernandez Cardenete (1873) - Joan Amat Iglesis (1700)}\\\\[2ex]\\date{2024.04.12, Terrassa}\\author{Obert Barad 2024}\\begin{document}\\begin{multicols}{2}\\maketitle\\newchessgame\\textbf{1.}\\textbf{d4} \\textbf{c5} \\textbf{2.}\\textbf{d5} \\textbf{Nf6} \\textbf{3.}\\textbf{c4} \\textbf{e6} \\textbf{4.}\\textbf{Nc3} \\textbf{exd5} \\textbf{5.}\\textbf{cxd5} \\textbf{d6} \\textbf{6.}\\textbf{e4} \\textbf{g6} \\textbf{7.}\\textbf{Nf3} \\textbf{Bg7} \\textbf{8.}\\textbf{Be2} \\textbf{O-O} \\textbf{9.}\\textbf{O-O} \\textbf{Bg4} \\newline ULTIMA JUGADA DE MESTRE, BG4 392 VEGADES 35/31/34\\% \\par \\textbf{10.}\\textbf{Be3} \\newline Aquí acaba la meva preparació. Be3 no és habitual però no és dolent. Segueixo\namb mainline Re8. STOCKFISH (d50) DONA 0.24 ELS MESTRES JUGUEN BF4 ND2 H3 BG5\nRE1. ELS MESTRES HAN JUGAT BE3 8 VEGADES \\par \\textbf{10...}\\textbf{Re8} \\newline ULTIMA JUGADA LICHESS >100\nVEGADES 43/3/54\\% \\par \\textbf{11.}\\textbf{Qc2} \\newline No és bona però no veig com explotar-ho. Dubto entre\nNa6 i a6. Trio a6 perquè em sembla que Nb5o n té objectius (però Ne5 tampoc !).\nSTOCKFISH (d40) DONA 0.0 I DEMANA NBD7 (0.08), A6 (0.08), QE7 (0.04) O NA6\n(0.28), TOTES TEMÀTIQUES \\par \\textbf{11...}\\textbf{a6} \\textbf{12.}\\textbf{a4} \\textbf{Nbd7} \\textbf{13.}\\textbf{h3} \\newline La meva preparació diu\nque l'alfil ha vingut a morir per ralentitzar l'atac de costat de Rei \\par \\textbf{13...}\\textbf{Bxf3} \\textbf{14.}\\textbf{Bxf3} \\newline No tinc idea de què fer perquè Ne5 no té objectius ! Sabia per\npreparació que que Qc7 és habitual, permet c4 (però no té objectius !) i unir\ntorres. Descarto Ne5 perquè després de Be2 ve f4 i guanya molta iniciativa.\nConsidero Qe7 però em sembla que després de Re1 quedarà mal colocada. Considero\nRb8 però em sembla que obrir queenside em perjudica perquè hi té més peces.\nSTOCKFISH (D=40) VOL QE7 (0.08) C4 (0.11) O RC8 (0.13). \\par \\textbf{14...}\\textbf{Qc7} \\newline STOCKFISH\n(D=35) DONA A5 (0.46) NO ESTAMOS TAN MAL. TRANSPOSEM A LICHESS 40 VEGADES\n35/12/53\\% \\par \\textbf{0-1}\n\\end{multicols}\\end{document}"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Response for successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "success message"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Response for bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "example": "error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "bad request message"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Response for internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "example": "error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Internal server error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
