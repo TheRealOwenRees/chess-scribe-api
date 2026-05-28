@@ -23,7 +23,8 @@
  (depends
   ocaml
   (dream
-   (>= "1.0.0~alpha8")))
+   (>= "1.0.0~alpha8"))
+  pgn_to_tex)
  (tags
   ("chess" "pgn" "pdf")))
 
