@@ -1,6 +1,16 @@
-# dune init project chess-scribe-api --kind=exec
+# dune exec ./_build/default/bin/main.exe DREAM_ENV=development
 # OCAMLPARAM: unset
 # Shared cache: enabled-except-user-rules
 # Shared cache location: /home/owen/.cache/dune/db
 # Workspace root: /home/owen/Desktop/chess-scribe-api
 # Auto-detected concurrency: 4
+# Dune context:
+#  { name = "default"
+#  ; kind = "default"
+#  ; profile = Dev
+#  ; merlin = true
+#  ; fdo_target_exe = None
+#  ; build_dir = In_build_dir "default"
+#  ; instrument_with = []
+#  }
+$ /home/owen/.opam/default/bin/ocamlc.opt -config > /tmp/dune_9bdbb8_output
