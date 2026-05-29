@@ -11,9 +11,9 @@
 
 (maintainers "Owen Rees <owenrees.dev@gmail.com>")
 
-(license AGPLv3)
+(license AGPL-3.0-or-later)
 
-(documentation https://url/to/documentation)
+(documentation https://github.com/therealowenrees/chess-scribe-api/README.md)
 
 (package
  (name chess-scribe-api)
