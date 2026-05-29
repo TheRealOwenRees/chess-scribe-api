@@ -1,5 +1,6 @@
 # --- STAGE 1: Build the native OCaml binary ---
-FROM ocaml/opam:debian-12-ocaml-5.4 AS builder
+# ocaml/opam:debian-13-ocaml-5.4
+FROM ocaml/opam@sha256:a43344fd8178438c12ce3c78124f966ac44fb015c7cc4ba685f980f9a0460091 AS builder
 USER opam
 WORKDIR /app
 COPY --chown=opam:opam dune-project ./
@@ -9,7 +10,8 @@ COPY --chown=opam:opam . .
 RUN opam exec -- dune build bin/main.exe
 
 # --- STAGE 2: Lightweight runtime environment ---
-FROM debian:12-slim
+# debian:13.5-slim
+FROM debian@sha256:b6e2a152f22a40ff69d92cb397223c906017e1391a73c952b588e51af8883bf8
 WORKDIR /app
 
 # Configure apt to retry downloads up to 3 times if a packet gets corrupted
