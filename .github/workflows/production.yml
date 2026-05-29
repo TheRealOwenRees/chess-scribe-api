@@ -1,0 +1,45 @@
+name: Production Deploy
+
+on:
+  push:
+    branches: [main]
+
+env:
+  REGISTRY: ghcr.io
+  GH_USER: therealowenrees
+  IMAGE_NAME: therealowenrees/chess-pdf-api:latest
+
+jobs:
+  publish:
+    name: publish image
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Login to Github Container Registry
+        run: echo "${{ secrets.GHCR_SECRET }}" | docker login ghcr.io -u ${{ env.GH_USER }} --password-stdin
+
+      - name: Build image and publish
+        run: |
+          docker build . -t ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+
+  deploy:
+    needs: publish
+    name: deploy image
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Connect and pull image from GHCR
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          port: ${{ secrets.PORT }}
+          script: |
+            cd /home/${{ secrets.USERNAME }}/chess-pdf-api
+            echo "${{ secrets.SUDO_PASSWORD }}" | sudo -S docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+            echo "${{ secrets.SUDO_PASSWORD }}" | sudo -S docker compose up --build -d
