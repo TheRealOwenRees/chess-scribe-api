@@ -146,7 +146,8 @@ let () =
        [
          Dream.get "/" (fun request ->
              Dream.from_filesystem "static" "doc.html" request);
-         Dream.get "/health" (fun _ -> Dream.respond "OK");
+         Dream.get "/health" (fun _ ->
+             Dream.json {|{"type": "success", "message": "API is functional"}|});
          Dream.post "/api/v1/pdf" handle_convert;
          Dream.get "/api/v1" (fun request ->
              Dream.from_filesystem "static" "doc.html" request);
