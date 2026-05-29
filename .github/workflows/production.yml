@@ -21,10 +21,19 @@ jobs:
       - name: Login to Github Container Registry
         run: echo "${{ secrets.GHCR_SECRET }}" | docker login ghcr.io -u ${{ env.GH_USER }} --password-stdin
 
-      - name: Build image and publish
-        run: |
-          docker build . -t ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-          docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+      #   - name: Build image and publish
+      #     run: |
+      #       docker build . -t ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+      #       docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+
+      - name: Build image and publish with Cache
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
   deploy:
     needs: publish
