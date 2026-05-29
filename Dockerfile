@@ -4,6 +4,7 @@ USER opam
 WORKDIR /app
 COPY --chown=opam:opam dune-project ./
 RUN opam update && opam install -y dune dream
+RUN opam pin add -y pgn_to_tex git+https://github.com/TheRealOwenRees/pgn_to_tex.git#v0.0.1-rc.2
 COPY --chown=opam:opam . .
 RUN opam exec -- dune build bin/main.exe
 
@@ -37,13 +38,17 @@ RUN wget --tries=5 https://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.
 # 3. FIX: Ensure the dynamic path to tlmgr matches whatever year CTAN is currently on
 ENV PATH="/usr/local/texlive/2026/bin/x86_64-linux:${PATH}"
 ENV PATH="/usr/local/texlive/2025/bin/x86_64-linux:${PATH}"
-ENV PATH="/usr/local/texlive/2024/bin/x86_64-linux:${PATH}"
 # Fallback to absolute standard binary bin location
 ENV PATH="/usr/local/texlive/bin/x86_64-linux:${PATH}"
 
-# 3. Install TexLive packages needed for rendering a chess game
+# 4. Install TexLive packages needed for rendering a chess game
 RUN tlmgr install parskip pgf chessboard etoolbox ifmtarg xifthen skaknew lambda-lists xkeyval chessfss skak xskak
 
+#5. Copy preamble source and regenerate the format file
+COPY ./preambles ./preambles
+RUN cd preambles && pdflatex -ini -jobname="chess" "&pdflatex" chess.tex
+
+# 6. Copy server binary and static assets
 COPY --from=builder /app/_build/default/bin/main.exe ./server
 COPY ./static ./static
 
