@@ -2,13 +2,24 @@ open Lwt.Syntax
 open Yojson.Safe.Util
 open Pgn_logic
 
+let allowed_origins =
+  [
+    "https://chess-scribe.org";
+    "https://www.chess-scribe.org";
+    "http://localhost:3000";
+  ]
+
 let is_dev_mode () =
   Array.to_list Sys.argv
   |> List.exists (fun arg -> arg = "DREAM_ENV=development")
 
 let cors_middleware next_handler request =
   let allowed_origin =
-    if is_dev_mode () then "*" else "https://chess-scribe.org"
+    if is_dev_mode () then "*"
+    else
+      match Dream.header request "Origin" with
+      | Some origin when List.mem origin allowed_origins -> origin
+      | _ -> "https://chess-scribe.org"
   in
 
   if Dream.method_ request = `OPTIONS then (
@@ -27,7 +38,6 @@ let cors_middleware next_handler request =
     Lwt.return response
 
 let handle_convert request =
-  (* let start_time = Unix.gettimeofday () in *)
   let temp_id =
     Int64.to_string (Int64.of_float (Unix.gettimeofday () *. 1000.0))
   in
