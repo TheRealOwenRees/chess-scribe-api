@@ -6,16 +6,13 @@
     "version": "0.0.1"
   },
   "paths": {
-    "/api/v1/health": {
+    "/health": {
       "get": {
         "summary": "Health Check",
-        "description": "Health check",
+        "description": "Health check. Assume that the API is non-functional if any error code other than 200 is returned.",
         "responses": {
           "200": {
             "$ref": "#/paths/~1api~1v1~1pdf/post/responses/200"
-          },
-          "500": {
-            "$ref": "#/paths/~1api~1v1~1pdf/post/responses/500"
           }
         }
       }
