@@ -5,7 +5,6 @@ USER opam
 WORKDIR /app
 COPY --chown=opam:opam dune-project ./
 RUN opam update && opam install -y dune dream
-RUN opam pin add -y pgn_to_tex git+https://github.com/TheRealOwenRees/pgn_to_tex.git#v0.0.1-rc.2
 COPY --chown=opam:opam . .
 RUN opam exec -- dune build bin/main.exe
 
