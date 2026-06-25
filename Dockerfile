@@ -4,7 +4,7 @@ FROM ocaml/opam@sha256:a43344fd8178438c12ce3c78124f966ac44fb015c7cc4ba685f980f9a
 USER opam
 WORKDIR /app
 COPY --chown=opam:opam dune-project ./
-RUN opam update && opam install -y dune dream
+RUN opam update && opam install -y dune dream pgn_to_tex
 COPY --chown=opam:opam . .
 RUN opam exec -- dune build bin/main.exe
 
