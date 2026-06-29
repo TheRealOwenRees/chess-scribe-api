@@ -69,7 +69,7 @@ let handle_convert request =
     let pid =
       Unix.create_process "pdflatex" argv Unix.stdin Unix.stdout Unix.stderr
     in
-    (* let _, process_status = Unix.waitpid [] pid in *)
+
     let _, _ = Unix.waitpid [] pid in
 
     if Sys.file_exists pdf_file_path then (
@@ -79,7 +79,6 @@ let handle_convert request =
 
       cleanup ();
 
-      (* TODO: record_metrics "SUCCESS" start_time; *)
       Dream.respond ~status:`Created
         ~headers:
           [
@@ -102,7 +101,6 @@ let handle_convert request =
   | exn ->
       cleanup ();
       let err_msg = Printexc.to_string exn in
-      (* TODO: record_metrics "FAIL" start_time err_msg; *)
-      (* TODO: logger.error err_msg; *)
+
       Dream.json ~status:`Internal_Server_Error
         (Printf.sprintf {|{"type": "error", "message": "%s"}|} err_msg)
