@@ -48,5 +48,6 @@ jobs:
           port: ${{ secrets.PORT }}
           script: |
             cd /home/${{ secrets.USERNAME }}
-            echo "${{ secrets.SUDO_PASSWORD }}" | sudo -S docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-            echo "${{ secrets.SUDO_PASSWORD }}" | sudo -S docker compose up -d --force-recreate
+            run: echo "${{ secrets.GHCR_SECRET }}" | docker login ghcr.io -u ${{ env.GH_USER }} --password-stdin
+            docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+            docker compose up -d
