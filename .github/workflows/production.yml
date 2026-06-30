@@ -48,6 +48,6 @@ jobs:
           port: ${{ secrets.PORT }}
           script: |
             cd /home/${{ secrets.USERNAME }}
-            run: echo "${{ secrets.GHCR_SECRET }}" | docker login ghcr.io -u ${{ env.GH_USER }} --password-stdin
+            echo "${{ secrets.GHCR_SECRET }}" | docker login ghcr.io -u ${{ env.GH_USER }} --password-stdin
             docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
             docker compose up -d
