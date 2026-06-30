@@ -1,11 +1,12 @@
 # --- STAGE 1: Build the native OCaml binary ---
 # ocaml/opam:debian-13-ocaml-5.4
-FROM ocaml/opam@sha256:a43344fd8178438c12ce3c78124f966ac44fb015c7cc4ba685f980f9a0460091 AS builder
+FROM ocaml/opam@sha256:82a44b5c39729dbea10a5aa394c544e8d2f6cadd2a8d3f7656c2259c72e3e55a AS builder
 USER opam
 WORKDIR /app
 COPY --chown=opam:opam dune-project ./
-RUN opam update && opam install -y dune dream
-RUN opam pin add -y pgn_to_tex git+https://github.com/TheRealOwenRees/pgn_to_tex.git#v0.0.1-rc.2
+RUN opam update && \
+    opam pin add -y pgn_to_tex https://github.com/TheRealOwenRees/pgn_to_tex.git#v0.0.1 && \
+    opam install -y dune dream pgn_to_tex
 COPY --chown=opam:opam . .
 RUN opam exec -- dune build bin/main.exe
 

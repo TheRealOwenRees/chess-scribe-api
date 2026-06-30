@@ -8,7 +8,7 @@ authors: ["Owen Rees<owenrees.dev@gmail.com>"]
 license: "AGPL-3.0-or-later"
 tags: ["chess" "pgn" "pdf"]
 homepage: "https://github.com/therealowenrees/chess-scribe-api"
-doc: "https://github.com/therealowenrees/chess-scribe-api/README.md"
+doc: "https://github.com/therealowenrees/chess-scribe-api/blob/main/README.md"
 bug-reports: "https://github.com/therealowenrees/chess-scribe-api/issues"
 depends: [
   "dune" {>= "3.21"}
