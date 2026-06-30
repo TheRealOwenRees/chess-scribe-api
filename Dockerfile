@@ -4,7 +4,9 @@ FROM ocaml/opam@sha256:82a44b5c39729dbea10a5aa394c544e8d2f6cadd2a8d3f7656c2259c7
 USER opam
 WORKDIR /app
 COPY --chown=opam:opam dune-project ./
-RUN opam update && opam install -y dune dream pgn_to_tex
+RUN opam update && \
+    opam pin add -y pgn_to_tex https://github.com/TheRealOwenRees/pgn_to_tex.git#v0.0.1 && \
+    opam install -y dune dream pgn_to_tex
 COPY --chown=opam:opam . .
 RUN opam exec -- dune build bin/main.exe
 
