@@ -3,6 +3,7 @@
 FROM ocaml/opam@sha256:f44a0401719551c26b8bdd990c5353aeb304f2896c1a4cc8d9159e95ab4446a2 AS builder
 USER opam
 WORKDIR /app
+RUN cd /home/opam/opam-repository && git pull origin master
 COPY --chown=opam:opam dune-project ./
 RUN opam update && opam install -y dune dream pgn_to_tex
 COPY --chown=opam:opam . .
