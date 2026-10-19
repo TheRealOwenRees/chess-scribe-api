@@ -1,18 +1,16 @@
 # --- STAGE 1: Build the native OCaml binary ---
 # ocaml/opam:debian-13-ocaml-5.4
-FROM ocaml/opam@sha256:82a44b5c39729dbea10a5aa394c544e8d2f6cadd2a8d3f7656c2259c72e3e55a AS builder
+FROM ocaml/opam@sha256:f44a0401719551c26b8bdd990c5353aeb304f2896c1a4cc8d9159e95ab4446a2 AS builder
 USER opam
 WORKDIR /app
 COPY --chown=opam:opam dune-project ./
-RUN opam update && \
-    opam pin add -y pgn_to_tex https://github.com/TheRealOwenRees/pgn_to_tex.git#v0.0.1 && \
-    opam install -y dune dream pgn_to_tex
+RUN opam update && opam install -y dune dream pgn_to_tex
 COPY --chown=opam:opam . .
 RUN opam exec -- dune build bin/main.exe
 
 # --- STAGE 2: Lightweight runtime environment ---
-# debian:13.5-slim
-FROM debian@sha256:b6e2a152f22a40ff69d92cb397223c906017e1391a73c952b588e51af8883bf8
+# debian:13.7-slim
+FROM debian@sha256:a29215f6a35e51e22adffa17f89e9d2ef06214e64a2bad10d765c46aea49f11f
 WORKDIR /app
 
 # Configure apt to retry downloads up to 3 times if a packet gets corrupted
