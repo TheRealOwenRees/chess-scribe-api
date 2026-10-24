@@ -1,2 +1,3 @@
 (library
- (name chess_scribe_api))
+ (name chess_scribe_api)
+ (libraries yojson pgn_to_tex))

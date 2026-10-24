@@ -1,6 +1,6 @@
 open Lwt.Syntax
 open Yojson.Safe.Util
-open Pgn_logic
+open Pgn_to_tex
 
 let () =
   Dream.run ~interface:"0.0.0.0" ~port:8080
