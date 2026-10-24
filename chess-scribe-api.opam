@@ -8,13 +8,14 @@ authors: ["Owen Rees<owenrees.dev@gmail.com>"]
 license: "AGPL-3.0-or-later"
 tags: ["chess" "pgn" "pdf"]
 homepage: "https://github.com/therealowenrees/chess-scribe-api"
-doc: "https://github.com/therealowenrees/chess-scribe-api/blob/main/README.md"
+doc: "https://github.com/therealowenrees/chess-scribe-api/README.md"
 bug-reports: "https://github.com/therealowenrees/chess-scribe-api/issues"
 depends: [
   "dune" {>= "3.21"}
   "ocaml"
-  "dream" {>= "1.0.0~alpha8"}
-  "pgn_to_tex"
+  "dream" {>= "1.0.0"}
+  "pgn_to_tex" {>= "0.1.0"}
+  "yojson"
   "odoc" {with-doc}
 ]
 build: [
