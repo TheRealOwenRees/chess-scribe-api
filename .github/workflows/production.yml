@@ -32,6 +32,8 @@ jobs:
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+          build-args: |
+            OPAM_CACHE_BUST=${{ github.run_id }}
 
   deploy:
     needs: publish

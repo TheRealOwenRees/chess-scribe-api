@@ -4,6 +4,8 @@ FROM ocaml/opam@sha256:f44a0401719551c26b8bdd990c5353aeb304f2896c1a4cc8d9159e95a
 USER opam
 WORKDIR /app
 
+ARG OPAM_CACHE_BUST=1
+
 RUN cd /home/opam/opam-repository && git pull origin master
 COPY --chown=opam:opam dune-project ./
 
