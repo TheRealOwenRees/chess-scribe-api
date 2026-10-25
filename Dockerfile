@@ -5,6 +5,10 @@ USER opam
 WORKDIR /app
 RUN cd /home/opam/opam-repository && git pull origin master
 COPY --chown=opam:opam dune-project ./
+
+RUN opam pin add pgn_to_tex 0.1.0 -y && \
+    opam pin add dream 1.0.0 -y
+
 RUN opam update && opam install -y dune dream pgn_to_tex
 COPY --chown=opam:opam . .
 RUN opam exec -- dune build bin/main.exe
