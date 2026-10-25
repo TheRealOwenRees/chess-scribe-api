@@ -5,9 +5,7 @@ let allowed_origins =
     "http://localhost:3000";
   ]
 
-let is_dev_mode () =
-  Array.to_list Sys.argv
-  |> List.exists (fun arg -> arg = "DREAM_ENV=development")
+let is_dev_mode () = Sys.getenv_opt "DREAM_ENV" = Some "development"
 
 let middleware next_handler request =
   let allowed_origin =

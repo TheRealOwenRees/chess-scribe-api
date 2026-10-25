@@ -1,5 +1,5 @@
 run:
-	dune build && dune exec ./_build/default/bin/main.exe DREAM_ENV=production
+	dune build && DREAM_ENV=production dune exec ./_build/default/bin/main.exe
 
 run-dev:
-	find . -name "*.ml" -o -path "./static/*" | entr -r dune exec ./_build/default/bin/main.exe DREAM_ENV=development
+	find . -name "*.ml" -o -path "./static/*" | entr -r env DREAM_ENV=development dune exec ./_build/default/bin/main.exe

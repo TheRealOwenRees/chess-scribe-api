@@ -24,7 +24,9 @@
   ocaml
   (dream
    (>= "1.0.0"))
-  pgn_to_tex)
+  (pgn_to_tex
+   (>= "0.1.0"))
+  yojson)
  (tags
   ("chess" "pgn" "pdf")))
 

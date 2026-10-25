@@ -1,6 +1,6 @@
 open Lwt.Syntax
 open Yojson.Safe.Util
-open Pgn_logic
+open Pgn_to_tex
 
 let tex_start = "\\begin{document}\\begin{multicols}{2}"
 let tex_end = "\\end{multicols}\\end{document}"
@@ -36,19 +36,12 @@ let handle_convert request =
   let* body = Dream.body request in
 
   try
-    let json = Yojson.Safe.from_string body in
-
-    let pgn = json |> member "pgn" |> to_string in
-    let diagram_clock = json |> member "diagramClock" |> to_bool in
-    let diagrams_json = json |> member "diagrams" in
-
-    let diagrams_data =
-      Yojson.Safe.to_string diagrams_json |> Pgn2tex.parse_diagrams_json
-    in
+    let parsed = Chess_scribe_api.Request.parse body in
 
     let game_tex =
       tex_start
-      ^ Pgn2tex.to_tex pgn ~diagram_data:diagrams_data ~clock:diagram_clock
+      ^ Pgn_to_tex.to_tex ~diagram_data:parsed.diagrams ~clock:parsed.clock
+          parsed.pgn
       ^ tex_end
     in
 
@@ -66,11 +59,12 @@ let handle_convert request =
       |]
     in
 
+    let dev_null = Unix.openfile Filename.null [ Unix.O_WRONLY ] 0o600 in
     let pid =
-      Unix.create_process "pdflatex" argv Unix.stdin Unix.stdout Unix.stderr
+      Unix.create_process "pdflatex" argv Unix.stdin dev_null dev_null
     in
-
     let _, _ = Unix.waitpid [] pid in
+    Unix.close dev_null;
 
     if Sys.file_exists pdf_file_path then (
       let pdf_content =
@@ -100,7 +94,6 @@ let handle_convert request =
            {|{"type": "error", "message": "Invalid JSON syntax: %s"}|} msg)
   | exn ->
       cleanup ();
-      let err_msg = Printexc.to_string exn in
-
+      Dream.log "PDF conversion failed: %s" (Printexc.to_string exn);
       Dream.json ~status:`Internal_Server_Error
-        (Printf.sprintf {|{"type": "error", "message": "%s"}|} err_msg)
+        {|{"type": "error", "message": "Internal server error"}|}
